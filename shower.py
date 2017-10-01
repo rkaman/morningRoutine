@@ -1,13 +1,17 @@
 #file for shower module
+import socket
+from time import sleep
+from gpiozero import MotionSensor, LED
 HOST =''
 PORT = 6001
 
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-
+pir = MotionSensor(4)
+shower = LED(17)
 try:
     s.bind((HOST,PORT))
-except ocket.error , msg:
-    print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+except socket.error:
+    print("Bind failed")
     sys.exit()
 
 s.listen(2)
@@ -18,7 +22,9 @@ while 1:
     data = int(data)
     if data == 0:
         #turn on shower
+        shower.on()
     else:
-        #while motion sensor not tripped:
-        #    conn.sendall("0")????
+        while not pir.motion_detected:
+            conn.sendall("0")
+            sleep(.1)
         conn.sendall("1")
