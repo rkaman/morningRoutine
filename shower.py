@@ -2,7 +2,7 @@
 import socket
 from time import sleep
 from gpiozero import MotionSensor, LED
-HOST =''
+HOST ='192.168.1.101'
 PORT = 6001
 
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -24,7 +24,8 @@ while 1:
         #turn on shower
         shower.on()
     else:
-        while not pir.motion_detected:
+        pir.wait_for_motion()
+       """ while not pir.motion_detected:
             conn.sendall("0")
-            sleep(.1)
+            sleep(.1)"""
         conn.sendall("1")
