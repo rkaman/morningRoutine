@@ -15,17 +15,18 @@ except socket.error:
     sys.exit()
 
 s.listen(2)
-
-while 1:
-    conn, addr = s.accept()
-    data = conn.recv(8)  #receive a 0 if we want to turn on the shower, 1 if alarm is going off and motion sensor needs to be tripped
-    data = int(data)
-    if data == 0:
-        #turn on shower
-        shower.on()
-    else:
-        pir.wait_for_motion()
-       """ while not pir.motion_detected:
-            conn.sendall("0")
-            sleep(.1)"""
-        conn.sendall("1")
+def runShower():
+    while 1:
+        conn, addr = s.accept()
+        data = conn.recv(8)  #receive a 0 if we want to turn on the shower, 1 if alarm is going off and motion sensor needs to be tripped
+        data = int(data)
+        if data == 0:
+            #turn on shower
+            shower.on()
+        else:
+            pir.wait_for_motion()
+            """ while not pir.motion_detected:
+                conn.sendall("0")
+                sleep(.1)"""
+            conn.sendall("1")
+runShower()
