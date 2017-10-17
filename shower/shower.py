@@ -10,6 +10,7 @@ pir = MotionSensor(4)
 shower = LED(17)
 try:
     s.bind((HOST,PORT))
+    print("socket bound")
 except socket.error:
     print("Bind failed")
     sys.exit()
@@ -17,20 +18,21 @@ except socket.error:
 s.listen(2)
 def runShower():
     while 1:
+        print("waiting for connection")
         conn, addr = s.accept()
+        print("connected")
         data = conn.recv(8)  #receive a 0 if we want to turn on the shower, 1 if alarm is going off and motion sensor needs to be tripped
-        data = int(data)
-        if data == 1:
+        input = int(data)
+        if input == 1:
             #turn on shower
             shower.on()
         if data == 0:
             pir.wait_for_motion()
-            """ while not pir.motion_detected:
-                conn.sendall("0")
+            """while not pir.motion_detected:
+                conn.sendall('0')
                 sleep(.1)"""
-            conn.sendall("1")
+            conn.sendall(b'1')
         if data == 2 :
             shower.off()
-
-
+        sleep(.1)
 runShower()
