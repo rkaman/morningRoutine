@@ -1,0 +1,1 @@
+{"showerDelay": "2", "alarmHour": "7", "alarmMinute": "30", "coffeDelay": "1"}

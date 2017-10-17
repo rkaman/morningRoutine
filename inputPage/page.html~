@@ -1,0 +1,12 @@
+<html>
+  <body>
+
+    <form action = "http://localhost:5000/submitted" method = "POST">
+      <p>Time <input type = "text" name = "hour" style = "width: 20px" maxlength = "2" value = "0"/> :
+	<input type = "text" name = "minute" style = "width: 20px" maxlength = "2" value = "0"/></p>
+      <p>Start shower <input type = "text" name = "showerDelay" value = "0"/> minutes before the alarm goes off</p>
+      <p>Start coffee <input type = "text" name = "coffeDelay" value = "0"/> minutes before the alarm goes off</p>
+      <p><input type = "submit" value = "submit" /></p>
+
+  </body>
+</html>
