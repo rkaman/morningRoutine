@@ -1,7 +1,6 @@
 import datetime
 import socket
 #import pygame
-#butthole
 
 
 
@@ -78,13 +77,13 @@ class Clock:
 
         def checkShowerOff(self,now):
                 #added this to deal with the case where delay pushed time into a different hour
-                if alarmMin-showerDelay < 0 :
+                if alarmMin-showerDelay+10 < 0 :
                         carry = 1
-                elif alarmMin-showerDelay > 59:
+                elif alarmMin-showerDelay+10 > 59:
                         carry = -1
                 else:
                         carry = 0
-                if now.hour >= alarmHour-carry and now.minute() >= alarmMin-showerDelay +60*carry and coffeeOn:
+                if now.hour >= alarmHour-carry and now.minute() >= alarmMin-showerDelay+10 +60*carry and coffeeOn:
                 #startShower()
                         s1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                         s1.connect((sHost,sPort))
@@ -94,13 +93,13 @@ class Clock:
                         self.showerOn = 0
 
         def checkCoffeeOff(self, now):
-                if alarmMin-coffeeDelay < 0 :
+                if alarmMin-coffeeDelay+10 < 0 :
                         carry = 1
-                elif alarmMin-coffeeDelay > 59:
+                elif alarmMin-coffeeDelay+10 > 59:
                         carry = -1
                 else:
                         carry = 0
-                if now.hour >= alarmHour - carry and now.minute() >= alarmMin-coffeeDelay + 60*carry and coffeeOn == 1 :
+                if now.hour >= alarmHour - carry and now.minute() >= alarmMin-coffeeDelay+10 + 60*carry and coffeeOn == 1 :
                         #startCoffee()
                         c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                         c.connect((cHost,cPort))
@@ -115,7 +114,7 @@ class Clock:
                         sflag = 1
                         cflag = 1
 
-
+#need to find a way to load in values
 if __name__ == "__main__":
         
         while True:
@@ -130,5 +129,9 @@ if __name__ == "__main__":
                 c.checkCoffeeOff(now)
                 if now.hour == 0 and now.minute == 0:
                         c.resetFlags()
+                """just have
+                schedule.run_pending()
+                
+                """
                 sleep(.3)
                 
