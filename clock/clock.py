@@ -1,9 +1,25 @@
 import datetime
 import socket
 #import pygame
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+import json
 
-
-
+"""class MyHandler(FileSystemEventHandler):
+    def on_modified(self, event):
+        with open('../inputPage/indata.json',r) as json_data:
+        d = json.loads(json_data)
+        c.alarmHour = d['alarmHour']
+        c.alarmMin = d['alarmMinute']
+        c.showerDelay = d['showerDelay']
+        c.coffeeDelay = d['coffeeDelay']
+        c.sflag = 1
+        c.aflag = 1
+        c.cflag = 1
+        c.armed = 1
+        json_data.close()"""
+        
+        
 class Clock:
         sHost = '192.168.1.101'
         cHost = '192.168.1.100'
@@ -37,7 +53,7 @@ class Clock:
                             data = s0.recv(8)"""
                         #pygame.mixer.music.stop()
                         s0.close()
-                        aflag = 0
+                        self.aflag = 0
                 
         #once shower module sees a zero from here, it starts up the shower
         def checkShowerOn(self, now):
@@ -54,8 +70,8 @@ class Clock:
                         s1.sendall(b'1')
                         print("shower")
                         s1.close()
-                        sflag = 0
-                        showerOn = 1
+                        self.sflag = 0
+                        self.showerOn = 1
             #maybe send an end time or something later on
         #as soon as coffee establishes the connection it will turn it on
         def checkCoffeeOn(self, now):
@@ -72,8 +88,8 @@ class Clock:
                         s1.sendall(b'1')
                         c.close()
                         print("coffee")
-                        cflag = 0
-                        coffeeOn = 1
+                        self.cflag = 0
+                        self.coffeeOn = 1
 
         def checkShowerOff(self,now):
                 #added this to deal with the case where delay pushed time into a different hour
@@ -110,10 +126,11 @@ class Clock:
                         
         def resetFlags(self):
                 if armed:
-                        aflag = 1
-                        sflag = 1
-                        cflag = 1
+                        self.aflag = 1
+                        self.sflag = 1
+                        self.cflag = 1
 
+c = Clock()                        
 #need to find a way to load in values
 if __name__ == "__main__":
         
@@ -121,7 +138,11 @@ if __name__ == "__main__":
                 now = datetime.datetime.now()
                 #pygame.init()
                 #pygame.mixer.music.load("")
-                c = Clock()
+                """event_handler = MyHandler()
+                observer = Observer()
+                observer.schedule(event_handler, path='../inputpage', recursive=False)
+                observer.start()"""
+                
                 c.checkAlarm()
                 c.checkShowerOn(now)
                 c.checkCoffeeOn(now)
