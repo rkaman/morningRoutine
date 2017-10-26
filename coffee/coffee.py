@@ -1,7 +1,7 @@
 #file for the coffee maker
 import socket
 from gpiozero import LED
-HOST ='192.168.1.100'
+HOST = socket.gethostbyname('coffee')
 PORT = 6000
 start = LED(4)
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)

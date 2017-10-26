@@ -2,7 +2,7 @@
 import socket
 from time import sleep
 from gpiozero import MotionSensor, LED
-HOST ='192.168.1.101'
+HOST = socket.gethostbyname('shower')
 PORT = 6001
 
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)

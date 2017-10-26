@@ -6,8 +6,8 @@ import socket
 
 
 class Clock:
-        sHost = '192.168.1.101'
-        cHost = '192.168.1.100'
+        sHost = socket.gethostbyname('shower')
+        cHost = socket.gethostbyname('coffee')
         sPort = 6001
         cPort = 6000
 
