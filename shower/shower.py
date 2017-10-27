@@ -2,12 +2,13 @@
 import socket
 from time import sleep
 from gpiozero import MotionSensor, LED
-HOST ='192.168.1.101'
+HOST = ''
 PORT = 6001
 
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-pir = MotionSensor(4)
-shower = LED(17)
+pir = MotionSensor(17)
+print('{},{}'.format(HOST,PORT))
+shower = LED(4)
 try:
     s.bind((HOST,PORT))
     print("socket bound")
@@ -26,13 +27,15 @@ def runShower():
         if input == 1:
             #turn on shower
             shower.on()
-        if data == 0:
+            print("shower on")
+        if input == 0:
             pir.wait_for_motion()
             """while not pir.motion_detected:
                 conn.sendall('0')
                 sleep(.1)"""
             conn.sendall(b'1')
-        if data == 2 :
+        if input == 2 :
             shower.off()
+            print("shower off")
         sleep(.1)
 runShower()
