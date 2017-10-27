@@ -7,7 +7,6 @@ PORT = 6001
 
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 pir = MotionSensor(17)
-print('{},{}'.format(HOST,PORT))
 shower = LED(4)
 try:
     s.bind((HOST,PORT))
